@@ -10,4 +10,9 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::create($req);
     }
+
+    public function getUsers()
+    {
+        return User::all();
+    }
 }

@@ -4,11 +4,11 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\Peminjaman;
-use App\Models\User;
 use App\Observers\PeminjamanObserver;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\User\UserRepositoryProxy;
+use App\Services\UserService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,10 +20,15 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             UserRepositoryInterface::class,
             function ($app) {
-                /* $realRepository = $app->make(UserRepository::class); */
                 return new UserRepositoryProxy(new UserRepository());
             }
         );
+
+        $this->app->singleton('userService', function ($app) {
+            return new UserService(
+                $app->make(UserRepositoryInterface::class)
+            );
+        });
     }
 
     /**

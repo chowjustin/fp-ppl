@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\UserFacade;
 use App\Http\Requests\CreateUserRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +15,17 @@ class UserController extends Controller
     public function __construct(UserRepositoryInterface $user_repo)
     {
         $this->user_repo = $user_repo;
+    }
+
+
+    public function show(): JsonResponse
+    {
+        $users = UserFacade::getUsersViaFacade();
+        return $this->BuildResponseSuccess(
+            Response::HTTP_OK,
+            "Berhasil mendapatkan users",
+            $users
+        );
     }
 
     public function store(CreateUserRequest $request): JsonResponse

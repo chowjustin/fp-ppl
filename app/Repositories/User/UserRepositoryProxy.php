@@ -14,7 +14,13 @@ class UserRepositoryProxy implements UserRepositoryInterface
 
     public function addUser(array $request)
     {
-        Log::info("[LOG] AddUserRequest");
+        Log::info("[proxy] AddUserRequest");
         return $this->user_repo->addUser($request);
+    }
+
+    public function getUsers()
+    {
+        Log::info("[proxy] Get Users via Facade");
+        return $this->user_repo->getUsers();
     }
 }
